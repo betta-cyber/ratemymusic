@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 typedef OnError = void Function(Exception exception);
 
@@ -29,9 +31,16 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    var url = "https://m10.music.126.net/20220929022513/0c8b97d851b61ce2b05982e6f65d5b4d/yyaac/obj/wonDkMOGw6XDiTHCmMOi/14055822107/9a2a/cbdb/34bd/85cb496fdec5db6b2c15777e306fa338.m4a";
-    // await player.setSourceUrl(url);
-    players[0].play(UrlSource(url));
+    // var url = Uri.http('localhost:3000', 'song/url/v1?id=5267808&level=exhigh');
+    // var response = http.get(url);
+    // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    // var musicUrl = decodedResponse['url'] as String;
+    // print(musicUrl);
+    //
+    // // http://localhost:3000/song/url/v1?id=33894312&level=exhigh
+    // // var musicUrl = "https://m701.music.126.net/20220929175249/2c424d76fb57938e0d608e03e819e30d/jdyyaac/0753/525b/070e/09e1afd181e168ec37a20dd3f9ddd791.m4a";
+    // // await player.setSourceUrl(url);
+    // players[0].play(UrlSource(musicUrl));
     players.asMap().forEach((index, player) async {
       streams.add(
         player.onPlayerComplete.listen(
@@ -58,16 +67,36 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('audio players'),
+          title: const Text('rate your music'),
         ),
         body: Column(
-            children: const [
+            children: [
               Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('1111'),
+                  child: FloatingActionButton ( //FloatingActionButton 按钮
+                    onPressed: () {
+                      playMusic("33894312");
+                    },
+                    backgroundColor: Colors.lightGreen,
+                    elevation: 20,
+                    child: Icon(Icons.search),
+                  ),
               ),
             ],
         ),
     );
+  }
+
+  playMusic(songId) async {
+    var url = Uri.http('192.168.31.113:3000', '/song/url/v1', {'id': songId, 'level': 'exhigh'});
+    // print(url);
+    var response = await http.get(url);
+    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    var musicUrl = decodedResponse['data'][0]['url'] as String;
+    var httpsMusicUrl = musicUrl.replaceAll("http", "https");
+    // var musicUrl = "https://m701.music.126.net/20220929175249/2c424d76fb57938e0d608e03e819e30d/jdyyaac/0753/525b/070e/09e1afd181e168ec37a20dd3f9ddd791.m4a";
+    // await player.setSourceUrl(url);
+    players[0].stop();
+    players[0].play(UrlSource(httpsMusicUrl));
   }
 }
