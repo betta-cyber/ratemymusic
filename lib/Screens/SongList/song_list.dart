@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rateyourmusic/APIs/api.dart';
+import 'package:ratemymusic/APIs/api.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:rateyourmusic/Screens/Player/audioplayer.dart';
-import 'package:rateyourmusic/Services/audio_service.dart';
+import 'package:ratemymusic/Screens/Player/audioplayer.dart';
+import 'package:ratemymusic/Services/audio_service.dart';
 
 class SongsListPage extends StatefulWidget {
   final Map listItem;
@@ -65,9 +65,11 @@ class _SongsListPageState extends State<SongsListPage> {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    opaque: false,
-                      pageBuilder:(_, __, ___) => PlayScreen()
-                  ),
+                      opaque: false,
+                      pageBuilder: (_, __, ___) => PlayScreen(
+                            songsList: songList,
+                            index: songList.indexOf(item),
+                          )),
                 );
               }));
     }).toList();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rateyourmusic/Screens/SongList/song_list.dart';
+import 'package:ratemymusic/Screens/SongList/song_list.dart';
 
 class HandleRoute {
   static Route? handleRoute(String? url) {

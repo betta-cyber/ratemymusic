@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rateyourmusic">
+    package="com.example.ratemymusic">
    <application
-        android:label="rateyourmusic"
+        android:label="ratemymusic"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

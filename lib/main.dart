@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rateyourmusic/Screens/SongList/song_list.dart';
-import 'package:rateyourmusic/Helpers/route_handler.dart';
-import 'package:rateyourmusic/APIs/api.dart';
+import 'package:ratemymusic/Screens/SongList/song_list.dart';
+import 'package:ratemymusic/Helpers/route_handler.dart';
+import 'package:ratemymusic/APIs/api.dart';
 
 typedef OnError = void Function(Exception exception);
 
