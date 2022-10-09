@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "rateyourmusic" "\0"
+            VALUE "FileDescription", "ratemymusic" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "rateyourmusic" "\0"
+            VALUE "InternalName", "ratemymusic" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "rateyourmusic.exe" "\0"
-            VALUE "ProductName", "rateyourmusic" "\0"
+            VALUE "OriginalFilename", "ratemymusic.exe" "\0"
+            VALUE "ProductName", "ratemymusic" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

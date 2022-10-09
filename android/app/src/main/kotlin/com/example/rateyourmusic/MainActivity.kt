@@ -1,4 +1,4 @@
-package com.example.rateyourmusic
+package com.example.ratemymusic
 
 import io.flutter.embedding.android.FlutterActivity
 

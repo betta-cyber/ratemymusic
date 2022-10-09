@@ -1,4 +1,4 @@
-# rateyourmusic
+# ratemymusic
 
 A new Flutter project.
 

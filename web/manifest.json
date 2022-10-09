@@ -1,6 +1,6 @@
 {
-  "name": "rateyourmusic",
-  "short_name": "rateyourmusic",
+  "name": "ratemymusic",
+  "short_name": "ratemymusic",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#hexcode",
