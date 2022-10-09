@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:rateyourmusic/Screens/Player/audioplayer.dart';
 import 'package:rateyourmusic/Screens/SongList/song_list.dart';
 import 'package:rateyourmusic/Helpers/route_handler.dart';
 import 'package:rateyourmusic/APIs/api.dart';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rateyourmusic/APIs/api.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:rateyourmusic/Screens/Player/audioplayer.dart';
+import 'package:rateyourmusic/Services/audio_service.dart';
 
 class SongsListPage extends StatefulWidget {
   final Map listItem;
@@ -59,8 +61,14 @@ class _SongsListPageState extends State<SongsListPage> {
               title: Text(item['name']),
               onTap: () async {
                 var url = await getSongUrl('${item['id']}');
-                var players = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
-                players.play(UrlSource(url));
+                playMusic(url);
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    opaque: false,
+                      pageBuilder:(_, __, ___) => PlayScreen()
+                  ),
+                );
               }));
     }).toList();
   }
