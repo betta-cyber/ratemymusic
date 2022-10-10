@@ -52,7 +52,7 @@ class _PlayerScreenState extends State<PlayScreen> {
           ) {
             final MediaItem = globalQueue[globalIndex];
             return Container(
-              color: Colors.black,
+              color: Colors.cyan,
               child: Column(
                 children: [
                   // Artwork
@@ -128,9 +128,108 @@ class NameNControls extends StatelessWidget {
                           color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
+
+                      /// 空行
+                      SizedBox(
+                        height: titleBoxHeight / 40,
+                      ),
+
+                      /// 艺术家 和 专辑名
+                      AnimatedText(
+                        text:
+                            '${mediaItem['ar'][0]['name'] ?? "Unknown"} • ${mediaItem['al']['name'] ?? "Unknown"}',
+                        pauseAfterRound: const Duration(seconds: 3),
+                        showFadingOnlyWhenScrolling: false,
+                        fadingEdgeEndFraction: 0.1,
+                        fadingEdgeStartFraction: 0.1,
+                        startAfter: const Duration(seconds: 2),
+                        style: TextStyle(
+                          fontSize: titleBoxHeight / 6.75,
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+
+                      /// 控制按钮
+                      ControlButtons(),
                     ])))
           ])
         ]));
+  }
+}
+
+class ControlButtons extends StatelessWidget {
+  final bool shuffle;
+  final List buttons;
+  final Color? dominantColor;
+
+  const ControlButtons({
+    // this.audioHandler,
+    this.shuffle = false,
+    // this.miniplayer = false,
+    this.buttons = const ['Previous', 'Play/Pause', 'Next'],
+    this.dominantColor = Colors.red,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisSize: MainAxisSize.min,
+      children: buttons.map((e) {
+        switch (e) {
+          case 'Previous':
+            return IconButton(
+              icon: const Icon(Icons.skip_previous_rounded),
+              iconSize: 45.0,
+              tooltip: "Previous",
+              color: dominantColor ?? Theme.of(context).iconTheme.color,
+              onPressed: null,
+            );
+          case 'Play/Pause':
+            const playing = true;
+            return SizedBox(
+                height: 65.0,
+                width: 65.0,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: playing
+                          ? IconButton(
+                              tooltip: "pause",
+                              onPressed: null,
+                              icon: const Icon(
+                                Icons.pause_rounded,
+                              ),
+                              color: dominantColor ??
+                                  Theme.of(context).iconTheme.color,
+                            )
+                          : IconButton(
+                              tooltip: "play",
+                              onPressed: null,
+                              icon: const Icon(
+                                Icons.play_arrow_rounded,
+                              ),
+                              color: dominantColor ??
+                                  Theme.of(context).iconTheme.color,
+                            ),
+                    )
+                  ],
+                ));
+          case 'Next':
+            return IconButton(
+              icon: const Icon(Icons.skip_next_rounded),
+              iconSize: 45.0,
+              tooltip: "Next",
+              color: dominantColor ?? Theme.of(context).iconTheme.color,
+              onPressed: null,
+            );
+          default:
+            break;
+        }
+        return const SizedBox();
+      }).toList(),
+    );
   }
 }
 
@@ -191,14 +290,14 @@ class _ArtWorkWidgetState extends State<ArtWorkWidget> {
                     fit: BoxFit.cover,
                     image: AssetImage('assets/cover.jpg'),
                   ),
-                  imageUrl: widget.mediaItem['album']['picUrl'].toString(),
+                  imageUrl: widget.mediaItem['al']['picUrl'].toString(),
                   width: widget.width * 0.85,
                 ),
               ),
             ],
           ),
           back: Container(
-            child: Text(
+            child: const Text(
               'Back',
               style: TextStyle(
                 color: Colors.blue,
