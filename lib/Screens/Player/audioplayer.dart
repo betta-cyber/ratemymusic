@@ -2,6 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:ratemymusic/CustomWidgets/animated_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+import '../../APIs/api.dart';
 
 class PlayScreen extends StatefulWidget {
   final List songsList;
@@ -16,6 +20,7 @@ class _PlayerScreenState extends State<PlayScreen> {
   final String repeatMode = "All";
   List globalQueue = [];
   int globalIndex = 0;
+  final AudioPlayer audioHandler = GetIt.I<AudioPlayer>();
 
   @override
   void initState() {
@@ -27,6 +32,36 @@ class _PlayerScreenState extends State<PlayScreen> {
       globalIndex = 0;
     }
     globalQueue = response;
+    updatePlayer();
+  }
+
+  Future<void> updatePlayer() async {
+    // await audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
+    // await audioHandler.updateQueue(globalQueue);
+    // await audioHandler.skipToQueueItem(globalIndex);
+    // await audioHandler.play();
+    // if (enforceRepeat) {
+    //   switch (repeatMode) {
+    //     case 'None':
+    //       audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
+    //       break;
+    //     case 'All':
+    //       audioHandler.setRepeatMode(AudioServiceRepeatMode.all);
+    //       break;
+    //     case 'One':
+    //       audioHandler.setRepeatMode(AudioServiceRepeatMode.one);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // } else {
+    //   audioHandler.setRepeatMode(AudioServiceRepeatMode.none);
+    //   Hive.box('settings').put('repeatMode', 'None');
+    // }
+    audioHandler.stop();
+    var songId = globalQueue[globalIndex]['id'];
+    var musicUrl = await getSongUrl("$songId");
+    audioHandler.play(UrlSource(musicUrl));
   }
 
   @override
@@ -71,6 +106,7 @@ class _PlayerScreenState extends State<PlayScreen> {
                     height:
                         constraints.maxHeight - (constraints.maxWidth * 0.85),
                     mediaItem: MediaItem,
+                    audioHandler: audioHandler,
                   ),
                 ],
               ),
@@ -86,12 +122,14 @@ class NameNControls extends StatelessWidget {
   final double width;
   final double height;
   final mediaItem;
+  final audioHandler;
 
   const NameNControls({
     super.key,
     required this.width,
     required this.height,
     required this.mediaItem,
+    required this.audioHandler,
     // // required this.gradientColor,
     // required this.audioHandler,
     // required this.panelController,
@@ -151,7 +189,7 @@ class NameNControls extends StatelessWidget {
                       ),
 
                       /// 控制按钮
-                      ControlButtons(),
+                      ControlButtons(audioHandler),
                     ])))
           ])
         ]));
@@ -161,10 +199,11 @@ class NameNControls extends StatelessWidget {
 class ControlButtons extends StatelessWidget {
   final bool shuffle;
   final List buttons;
+  final AudioPlayer audioHandler;
   final Color? dominantColor;
 
-  const ControlButtons({
-    // this.audioHandler,
+  const ControlButtons(
+    this.audioHandler, {
     this.shuffle = false,
     // this.miniplayer = false,
     this.buttons = const ['Previous', 'Play/Pause', 'Next'],
@@ -187,7 +226,7 @@ class ControlButtons extends StatelessWidget {
               onPressed: null,
             );
           case 'Play/Pause':
-            const playing = true;
+            var playing = (audioHandler.state == PlayerState.playing) ? false : true;
             return SizedBox(
                 height: 65.0,
                 width: 65.0,
@@ -197,7 +236,7 @@ class ControlButtons extends StatelessWidget {
                       child: playing
                           ? IconButton(
                               tooltip: "pause",
-                              onPressed: null,
+                              onPressed: () => audioHandler.pause(),
                               icon: const Icon(
                                 Icons.pause_rounded,
                               ),
@@ -206,7 +245,7 @@ class ControlButtons extends StatelessWidget {
                             )
                           : IconButton(
                               tooltip: "play",
-                              onPressed: null,
+                              onPressed: () => audioHandler.resume(),
                               icon: const Icon(
                                 Icons.play_arrow_rounded,
                               ),

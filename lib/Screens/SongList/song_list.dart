@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ratemymusic/APIs/api.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:ratemymusic/Screens/Player/audioplayer.dart';
-import 'package:ratemymusic/Services/audio_service.dart';
+// import 'package:ratemymusic/Services/audio_service.dart';
 
 class SongsListPage extends StatefulWidget {
   final Map listItem;
@@ -60,8 +60,8 @@ class _SongsListPageState extends State<SongsListPage> {
           child: ListTile(
               title: Text(item['name']),
               onTap: () async {
-                var url = await getSongUrl('${item['id']}');
-                playMusic(url);
+                // var url = await getSongUrl('${item['id']}');
+                // playMusic(url);
                 Navigator.push(
                   context,
                   PageRouteBuilder(

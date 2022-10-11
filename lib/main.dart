@@ -5,12 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:ratemymusic/Screens/SongList/song_list.dart';
 import 'package:ratemymusic/Helpers/route_handler.dart';
 import 'package:ratemymusic/APIs/api.dart';
+import 'package:get_it/get_it.dart';
 
 typedef OnError = void Function(Exception exception);
 
-void main() {
+Future<void> main() async {
   runApp(const MaterialApp(home: MainApp()));
+  await startService();
 }
+
+
+Future<void> startService() async {
+  final player = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
+  GetIt.I.registerSingleton<AudioPlayer>(player);
+}
+
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -30,25 +39,10 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    players.asMap().forEach((index, player) async {
-      streams.add(
-        player.onPlayerComplete.listen(
-          (it) => print("2222"),
-        ),
-      );
-      streams.add(
-        player.onSeekComplete.listen(
-          (it) => print("111"),
-        ),
-      );
-    });
   }
 
   @override
   void dispose() {
-    for (var it in streams) {
-      it.cancel();
-    }
     super.dispose();
   }
 

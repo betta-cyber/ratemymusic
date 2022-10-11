@@ -19,3 +19,6 @@ playMusic(url) async {
   player.player.stop();
   player.player.play(UrlSource(url));
 }
+
+
+// AudioPlayerHandler
