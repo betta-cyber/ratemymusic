@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-var base_url = '10.224.121.8:3000';
+var base_url = '192.168.31.114:3000';
 
 getSongUrl(songId) async {
   var url =

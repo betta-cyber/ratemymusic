@@ -6,6 +6,7 @@ import 'package:ratemymusic/Screens/SongList/song_list.dart';
 import 'package:ratemymusic/Helpers/route_handler.dart';
 import 'package:ratemymusic/APIs/api.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ratemymusic/CustomWidgets/bottom_navigation.dart';
 
 typedef OnError = void Function(Exception exception);
 
@@ -14,12 +15,10 @@ Future<void> main() async {
   await startService();
 }
 
-
 Future<void> startService() async {
   final player = AudioPlayer()..setReleaseMode(ReleaseMode.stop);
   GetIt.I.registerSingleton<AudioPlayer>(player);
 }
-
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -52,9 +51,6 @@ class _MainAppState extends State<MainApp> {
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) {
           return Scaffold(
-              appBar: AppBar(
-                title: const Text('Home Route'),
-              ),
               body: Center(
                   child: TextButton(
                 style: ButtonStyle(
@@ -64,19 +60,18 @@ class _MainAppState extends State<MainApp> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/playlists');
                 },
-                child: Text('1111'),
-              )));
+                child: const Text('11'),
+              )),
+              bottomNavigationBar: BottomNavigation());
         },
         '/about': (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('About Route'),
-            ),
-          );
+          return Scaffold();
         },
-        '/playlists': (context) => const SongsListPage(
+        '/playlists': (context) => Scaffold(
+            body: SongsListPage(
               listItem: {"type": "songs"},
             ),
+            bottomNavigationBar: BottomNavigation()),
       },
       onGenerateRoute: (RouteSettings settings) {
         return HandleRoute.handleRoute(settings.name);

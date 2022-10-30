@@ -226,7 +226,8 @@ class ControlButtons extends StatelessWidget {
               onPressed: null,
             );
           case 'Play/Pause':
-            var playing = (audioHandler.state == PlayerState.playing) ? false : true;
+            var playing =
+                (audioHandler.state == PlayerState.playing) ? false : true;
             return SizedBox(
                 height: 65.0,
                 width: 65.0,
