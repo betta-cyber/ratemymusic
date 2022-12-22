@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-var base_url = '192.168.31.114:3000';
+var baseUrl = '0.0.0.0:3000';
 
 getSongUrl(songId) async {
   var url =
-      Uri.http(base_url, '/song/url/v1', {'id': songId, 'level': 'exhigh'});
+      Uri.http(baseUrl, '/song/url/v1', {'id': songId, 'level': 'exhigh'});
   // print(url);
   var response = await http.get(url);
   var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
@@ -16,7 +16,7 @@ getSongUrl(songId) async {
 }
 
 getPersonalFm(songListId) async {
-  var url = Uri.http(base_url, '/personal_fm');
+  var url = Uri.http(baseUrl, '/personal_fm');
   // print(url);
   var response = await http.get(url);
   var decodedResponse =
@@ -26,8 +26,8 @@ getPersonalFm(songListId) async {
 }
 
 getSongList(songListId) async {
-  var url = Uri.http(base_url, '/playlist/track/all', {'id': songListId});
-  print(url);
+  var url = Uri.http(baseUrl, '/playlist/track/all', {'id': songListId});
+  // print(url);
   var response = await http.get(url);
   var decodedResponse =
       await jsonDecode(utf8.decode(response.bodyBytes)) as Map;

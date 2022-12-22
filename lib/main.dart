@@ -29,15 +29,28 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   List<AudioPlayer> players =
-      List.generate(4, (_) => AudioPlayer()..setReleaseMode(ReleaseMode.stop));
+      List.generate(1, (_) => AudioPlayer()..setReleaseMode(ReleaseMode.stop));
   int selectedPlayerIdx = 0;
+  int selectedIndex = 0;
 
   AudioPlayer get selectedPlayer => players[selectedPlayerIdx];
   List<StreamSubscription> streams = [];
+  List<Widget> _bottomNavPages = [];
 
   @override
   void initState() {
     super.initState();
+    var apage = Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, 'playlists');
+        },
+        child: const Text('sss'),
+      ),
+    );
+    _bottomNavPages..add(SongsListPage(listItem: {"type": "songs"}));
+    _bottomNavPages..add(apage);
+    _bottomNavPages..add(SongsListPage(listItem: {"type": "songs"}));
   }
 
   @override
@@ -51,18 +64,10 @@ class _MainAppState extends State<MainApp> {
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) {
           return Scaffold(
-              body: Center(
-                  child: TextButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/playlists');
-                },
-                child: const Text('11'),
-              )),
-              bottomNavigationBar: BottomNavigation());
+              body: _bottomNavPages[selectedIndex],
+              bottomNavigationBar: BottomNavigation(
+                selectedIndex: selectedIndex,
+              ));
         },
         '/about': (BuildContext context) {
           return Scaffold();
@@ -71,17 +76,13 @@ class _MainAppState extends State<MainApp> {
             body: SongsListPage(
               listItem: {"type": "songs"},
             ),
-            bottomNavigationBar: BottomNavigation()),
+            bottomNavigationBar: BottomNavigation(
+              selectedIndex: 0,
+            )),
       },
       onGenerateRoute: (RouteSettings settings) {
         return HandleRoute.handleRoute(settings.name);
       },
     );
   }
-
-  // playMusic(songId) async {
-  //   players[0].stop();
-  //   var url = await getSongUrl(songId);
-  //   players[0].play(UrlSource(url));
-  // }
 }
